@@ -12,18 +12,12 @@ def test_dark_theme_by_time():
 
 
 def test_dark_theme_by_time_and_user_choice():
-    global is_dark_theme
     current_time = time(hour=5)
     dark_theme_enabled_by_user = True
-    if dark_theme_enabled_by_user is True:
-        is_dark_theme = True
-    elif dark_theme_enabled_by_user is False:
-        is_dark_theme = False
-    elif dark_theme_enabled_by_user is None:
-        if current_time.hour in range(6, 22):
-            is_dark_theme = False
-        else:
-            is_dark_theme = True
+    if dark_theme_enabled_by_user is not None:
+        is_dark_theme = dark_theme_enabled_by_user
+    else:
+        is_dark_theme = not (6 <= current_time.hour < 22)
     assert is_dark_theme is True
 
 
@@ -81,8 +75,7 @@ def go_to_companyname_homepage(page_url):
 
 
 def find_registration_button_on_login_page(page_url, button_text):
-    result = print_readable_function_name(find_registration_button_on_login_page.__name__, page_url=page_url,
-                                          button_text=button_text)
+    result = print_readable_function_name(find_registration_button_on_login_page.__name__, page_url=page_url, button_text=button_text)
     actual_result = "Find Registration Button On Login Page [page_url=https://companyname.com/login, " \
                     "button_text=Register]"
     assert result == actual_result, f"expected {actual_result}, but got {result}"
